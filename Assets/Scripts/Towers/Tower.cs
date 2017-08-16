@@ -183,7 +183,7 @@ public abstract class Tower : MonoBehaviour {
 
 	private void Attack()
 	{
-		if (!disabledByUnit) 
+		if (!disabledByUnit && this.transform.parent.tag != "Wall") 
 		{
 			if (!canAttack) 
 			{
@@ -240,6 +240,26 @@ public abstract class Tower : MonoBehaviour {
 		if (other.tag == "Monster") 
 		{
 			target = null;
+		}
+	}
+
+	private void OnMouseOver()
+	{
+		Debug.Log (this.gameObject);
+
+		if (GameManager.Instance.ChoosingWallToLeap && Input.GetMouseButtonDown (0)) 
+		{
+			Debug.Log (this);
+
+			if (this.transform.GetChild (0).tag == "Wall") 
+			{
+				Debug.Log (this);
+				GameManager.Instance.WallToLeap = this.transform.parent.GetComponent<TileScript>();
+			} 
+			else 
+			{
+
+			}
 		}
 	}
 

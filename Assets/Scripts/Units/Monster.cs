@@ -194,11 +194,30 @@ public abstract class Monster : MonoBehaviour
 	{
 		HandleDebuffs ();
 		Move ();
+		Debug.Log ("atTarget: " + atTarget);
 
-		if (atTarget || towers.Count > 0) 
+		if (Attacker && atTarget || Attacker && towers.Count > 0) 
 		{
-			Debug.Log (target);
+			Debug.Log ("Target: " + target);
 			Attack ();
+		}
+
+		if (atTarget && target == null && towers.Count == 0) 
+		{
+			speed = MaxSpeed;
+
+			if (stoleBacon) 
+			{
+				Stack<Node> newPath = LevelManager.Instance.GeneratePathToNextPortal (this, LevelManager.Instance.BlueSpawn);
+				SetPath (newPath);	
+			} 
+			else 
+			{
+				Stack<Node> newPath = LevelManager.Instance.GeneratePathToNextPortal (this, LevelManager.Instance.RedSpawn);
+				SetPath (newPath);
+			}
+
+			atTarget = false;
 		}
 	}
 
@@ -216,6 +235,8 @@ public abstract class Monster : MonoBehaviour
 		this.health.CurrentValue = this.health.MaxVal;
 
 		StartCoroutine (Scale (new Vector3 (0.1f, 0.1f), new Vector3 (1, 1), false));
+
+		SetPath (LevelManager.Instance.Path);
 	}
 
 	public IEnumerator Scale(Vector3 from, Vector3 to, bool remove)
@@ -264,6 +285,7 @@ public abstract class Monster : MonoBehaviour
 
 	private void SetPath(Stack<Node> newPath)
 	{
+		Debug.Log ("Setting path");
 		if (newPath != null) 
 		{
 			this.path = newPath;
@@ -314,18 +336,9 @@ public abstract class Monster : MonoBehaviour
 		}
 	}
 
-	protected virtual void Attack()
+	private void Attack()
 	{
 		Debug.Log (towers.Count);
-
-		if (towers.Count > 0 && target == null)
-		{
-			towers.Dequeue ();
-
-			speed = MaxSpeed;
-
-			target = towers.Peek();
-		}
 
 		if (!canAttack) 
 		{
@@ -352,17 +365,28 @@ public abstract class Monster : MonoBehaviour
 			}
 		}
 
-		if (towers.Count <= 0) 
-		{
-			if (stoleBacon) 
+		if (!target.IsAlive) {
+			if (towers.Count > 0 && target == null)
 			{
-				Stack<Node> newPath = LevelManager.Instance.GeneratePathToNextPortal (this, LevelManager.Instance.BlueSpawn);
-				SetPath (newPath);	
-			} 
-			else 
+				towers.Dequeue ();
+
+				speed = MaxSpeed;
+
+				target = towers.Peek();
+			}
+
+			else if (towers.Count == 0) 
 			{
-				Stack<Node> newPath = LevelManager.Instance.GeneratePathToNextPortal (this, LevelManager.Instance.RedSpawn);
-				SetPath (newPath);
+				if (stoleBacon) 
+				{
+					Stack<Node> newPath = LevelManager.Instance.GeneratePathToNextPortal (this, LevelManager.Instance.BlueSpawn);
+					SetPath (newPath);	
+				} 
+				else 
+				{
+					Stack<Node> newPath = LevelManager.Instance.GeneratePathToNextPortal (this, LevelManager.Instance.RedSpawn);
+					SetPath (newPath);
+				}
 			}
 		}
 	}
@@ -383,8 +407,10 @@ public abstract class Monster : MonoBehaviour
 			}
 		}
 
-		else if (other.tag == "UnitStopper") 
+		else if (other.tag == "UnitStopper" && Attacker && target != null) 
 		{
+			Debug.Log ("Stopping");
+			speed = 0;
 			atTarget = true;
 		}
 

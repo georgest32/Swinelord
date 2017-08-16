@@ -13,12 +13,4 @@ public class UnitStopper : MonoBehaviour {
 	void Update () {
 		
 	}
-
-	private void OnTriggerEnter2D(Collider2D other)
-	{
-		if (other.tag == "Monster" && other.GetComponent<Monster> ().Attacker) 
-		{
-			other.GetComponent<Monster> ().Speed = 0;
-		}
-	}
 }

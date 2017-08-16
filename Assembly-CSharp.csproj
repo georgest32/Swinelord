@@ -85,6 +85,7 @@
      <Compile Include="Assets\Scripts\Towers\TransfattyTower.cs" />
      <Compile Include="Assets\Scripts\Towers\WallTower.cs" />
      <Compile Include="Assets\Scripts\UnitBtn.cs" />
+     <Compile Include="Assets\Scripts\UnitDebuffs\AttackerDebuff.cs" />
      <Compile Include="Assets\Scripts\UnitDebuffs\DisablerDebuff.cs" />
      <Compile Include="Assets\Scripts\UnitDebuffs\UnitDebuff.cs" />
      <Compile Include="Assets\Scripts\Units\AttackerUnit.cs" />

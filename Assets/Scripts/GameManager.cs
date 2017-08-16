@@ -20,6 +20,10 @@ public class GameManager : Singleton<GameManager> {
 
 	private bool gameOver = false;
 
+	private bool choosingWallToLeap = false;
+
+	private TileScript wallToLeap;
+
 	public GameObject SelectedPortal { get; set; }
 
 	public bool ChangingPortal { get; set; }
@@ -59,6 +63,30 @@ public class GameManager : Singleton<GameManager> {
 	private List<Monster> activeMonsters = new List<Monster> ();
 
 	public ObjectPool Pool { get; set; }
+
+	public TileScript WallToLeap 
+	{
+		get 
+		{
+			return wallToLeap;
+		}
+		set 
+		{
+			wallToLeap = value;
+		}
+	}
+
+	public bool ChoosingWallToLeap 
+	{
+		get 
+		{
+			return choosingWallToLeap;
+		}
+		set 
+		{
+			choosingWallToLeap = value;
+		}
+	}
 
 	public bool WaveActive
 	{
@@ -300,5 +328,10 @@ public class GameManager : Singleton<GameManager> {
 	public void EndBaconraid()
 	{
 		SceneManager.LoadScene ("Home");
+	}
+
+	public void SelectWallToLeap()
+	{
+		ChoosingWallToLeap = !ChoosingWallToLeap;
 	}
 }

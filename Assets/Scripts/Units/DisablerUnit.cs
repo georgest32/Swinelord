@@ -13,9 +13,4 @@ public class DisablerUnit : Monster {
 	{
 		return new DisablerDebuff(Target, DebuffDuration);
 	}
-
-	protected override void Attack()
-	{
-		base.Attack ();
-	}
 }

@@ -11,7 +11,7 @@ public class AttackerUnit : Monster {
 
 	public override UnitDebuff GetUnitDebuff()
 	{
-		return new DisablerDebuff(Target, DebuffDuration);
+		return new AttackerDebuff(Target, DebuffDuration);
 
 	}
 }

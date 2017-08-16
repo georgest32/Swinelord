@@ -35,7 +35,10 @@ public class TileScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (GameManager.Instance.WallToLeap == this) 
+		{
+			this.spriteRenderer.color = Color.red;
+		}
 	}
 
 	public void Setup(Point gridPosition, Vector3 worldPosition, Transform parent)
@@ -51,11 +54,11 @@ public class TileScript : MonoBehaviour {
 
 	private void OnMouseOver()
 	{
-		if (GameManager.Instance.ChangingPortal && Input.GetMouseButtonUp (0))
+		if (GameManager.Instance.ChangingPortal && Input.GetMouseButtonUp (0)) 
 		{
 			PlacePortal ();
-		}
-		else if (!EventSystem.current.IsPointerOverGameObject () && GameManager.Instance.ClickedBtn != null)
+		} 
+		else if (!EventSystem.current.IsPointerOverGameObject () && GameManager.Instance.ClickedBtn != null) 
 		{
 			if (IsEmpty && !Debugging) 
 			{
