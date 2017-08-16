@@ -36,9 +36,9 @@ public abstract class Tower : MonoBehaviour {
 
 	private List<UnitDebuff> unitDebuffs = new List<UnitDebuff> ();
 
-	private List<UnitDebuff> unitDebuffsToRemove = new List<UnitDebuff>();
+	public List<UnitDebuff> UnitDebuffsToRemove { get; private set; }
 
-	private List<UnitDebuff> newUnitDebuffs = new List<UnitDebuff>();
+	public List<UnitDebuff> NewUnitDebuffs = new List<UnitDebuff>();
 
 	private SpriteRenderer mySpriteRenderer;
 
@@ -160,6 +160,8 @@ public abstract class Tower : MonoBehaviour {
 		mySpriteRenderer = GetComponent<SpriteRenderer> ();
 		Level = 1;
 
+		UnitDebuffsToRemove = new List<UnitDebuff>();
+
 		this.health.MaxVal = this.hitPoints;
 		this.health.CurrentValue = this.health.MaxVal;
 
@@ -265,8 +267,6 @@ public abstract class Tower : MonoBehaviour {
 	{
 		if (IsAlive) 
 		{
-			Debug.Log ("taking damage");
-
 			this.health.CurrentValue -= damage;
 
 			if (health.CurrentValue <= 0) {
@@ -286,36 +286,43 @@ public abstract class Tower : MonoBehaviour {
 	{
 		if(!unitDebuffs.Exists(x => x.GetType() == debuff.GetType()))
 		{
-			newUnitDebuffs.Add (debuff);
+			NewUnitDebuffs.Add (debuff);
 		}
 
 	}
 
 	private void HandleDebuffs()
 	{
-		if (newUnitDebuffs.Count > 0) 
+		//If the monster has any new debuffs
+		if (NewUnitDebuffs.Count > 0)
 		{
-			unitDebuffs.AddRange (newUnitDebuffs);
+			//Then we add them to the debuffs list
+			unitDebuffs.AddRange(NewUnitDebuffs);
 
-			newUnitDebuffs.Clear();
+			//Then clear new debuffs so that they only will be added once
+			NewUnitDebuffs.Clear();
 		}
 
-		foreach (UnitDebuff debuff in unitDebuffsToRemove) 
+		//Checks if we need to remove any debuffs
+		foreach (UnitDebuff debuff in UnitDebuffsToRemove)
 		{
-			unitDebuffs.Remove (debuff);
+			//If so then remove it
+			unitDebuffs.Remove(debuff);
 		}
 
-		unitDebuffsToRemove.Clear ();
+		//Clears the debuffs to remove, so that we only try to remove them once
+		UnitDebuffsToRemove.Clear();
 
+		//Updates all debuffs
 		foreach (UnitDebuff debuff in unitDebuffs) 
 		{
-			debuff.Update ();
+			debuff.Update();
 		}
 	}
 
 	public void RemoveDebuff(UnitDebuff debuff)
 	{
-		unitDebuffsToRemove.Add (debuff);
+		UnitDebuffsToRemove.Add (debuff);
 		unitDebuffs.Remove (debuff);
 	}
 

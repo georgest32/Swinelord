@@ -37,9 +37,9 @@ public abstract class Monster : MonoBehaviour
 
 	private List<Debuff> debuffs = new List<Debuff> ();
 
-	private List<Debuff> debuffsToRemove = new List<Debuff>();
+	public List<Debuff> DebuffsToRemove { get; private set; }
 
-	private List<Debuff> newDebuffs = new List<Debuff>();
+	private List<Debuff> NewDebuffs = new List<Debuff>();
 
 	private Point targetLocation;
 
@@ -179,6 +179,8 @@ public abstract class Monster : MonoBehaviour
 
 	void Awake()
 	{
+		DebuffsToRemove = new List<Debuff>();
+
 		MaxSpeed = speed;
 
 		myAnimator = GetComponent<Animator> ();
@@ -193,14 +195,19 @@ public abstract class Monster : MonoBehaviour
 		HandleDebuffs ();
 		Move ();
 
-		if (atTarget) 
+		if (atTarget || towers.Count > 0) 
 		{
+			Debug.Log (target);
 			Attack ();
 		}
 	}
 
 	public void Spawn()
 	{
+		target = null; 
+		atTarget = false;
+		speed = MaxSpeed;
+
 		this.stoleBacon = false;
 		transform.position = LevelManager.Instance.BluePortal.transform.position;
 
@@ -209,8 +216,6 @@ public abstract class Monster : MonoBehaviour
 		this.health.CurrentValue = this.health.MaxVal;
 
 		StartCoroutine (Scale (new Vector3 (0.1f, 0.1f), new Vector3 (1, 1), false));
-
-		SetPath (LevelManager.Instance.Path);
 	}
 
 	public IEnumerator Scale(Vector3 from, Vector3 to, bool remove)
@@ -229,6 +234,7 @@ public abstract class Monster : MonoBehaviour
 		transform.localScale = to;
 
 		IsActive = true;
+
 		if (remove == true) {
 			Release ();
 		}
@@ -310,7 +316,17 @@ public abstract class Monster : MonoBehaviour
 
 	protected virtual void Attack()
 	{
-		Debug.Log (target);
+		Debug.Log (towers.Count);
+
+		if (towers.Count > 0 && target == null)
+		{
+			towers.Dequeue ();
+
+			speed = MaxSpeed;
+
+			target = towers.Peek();
+		}
+
 		if (!canAttack) 
 		{
 			attackTimer += Time.deltaTime;
@@ -322,43 +338,53 @@ public abstract class Monster : MonoBehaviour
 			}
 		}
 
-		if (target == null && towers.Count > 0) 
+		if (Target != null && Target.IsActive && atTarget)
 		{
-			target = towers.Dequeue ();
-
-		}
-
-		if (target != null) 
-		{
-			if (canAttack) 
+			if (canAttack)
 			{
-				Debug.Log ("attacking " + target.transform.parent.name);
 				target.TakeDamage (this.damage);
-//				myAnimator.SetTrigger ("Attack");
+		
+				target.AddDebuff (this.GetUnitDebuff ());
+
+				myAnimator.SetTrigger("Attack");
+
 				canAttack = false;
 			}
-		} 
+		}
 
-//		if (target != null && !target.IsActive || target != null && !target.IsActive) 
-//		{
-//			target = null;
-//		}
+		if (towers.Count <= 0) 
+		{
+			if (stoleBacon) 
+			{
+				Stack<Node> newPath = LevelManager.Instance.GeneratePathToNextPortal (this, LevelManager.Instance.BlueSpawn);
+				SetPath (newPath);	
+			} 
+			else 
+			{
+				Stack<Node> newPath = LevelManager.Instance.GeneratePathToNextPortal (this, LevelManager.Instance.RedSpawn);
+				SetPath (newPath);
+			}
+		}
 	}
 
 	public void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.tag == "Tower" && Attacker) 
 		{
-			if (target == null) {
+			towers.Enqueue (other.GetComponent<Tower> ());
+
+			if (target == null) 
+			{
 				target = other.GetComponentInChildren<Tower> ();
+
+				Stack<Node> newPath = LevelManager.Instance.GeneratePathToTarget (this, target.transform.parent.parent.GetComponent<TileScript>());
+
+				SetPath(newPath);
 			}
-
-			Stack<Node> newPath = LevelManager.Instance.GeneratePathToTarget (this, target.transform.parent.transform.parent.GetComponent<TileScript>());
-
-			SetPath(newPath);
 		}
 
-		else if (other.tag == "UnitStopper") {
+		else if (other.tag == "UnitStopper") 
+		{
 			atTarget = true;
 		}
 
@@ -423,25 +449,25 @@ public abstract class Monster : MonoBehaviour
 	{
 		if(!debuffs.Exists(x => x.GetType() == debuff.GetType()))
 		{
-			newDebuffs.Add (debuff);
+			NewDebuffs.Add (debuff);
 		}
 	}
 
 	private void HandleDebuffs()
 	{
-		if (newDebuffs.Count > 0) 
+		if (NewDebuffs.Count > 0) 
 		{
-			debuffs.AddRange (newDebuffs);
+			debuffs.AddRange (NewDebuffs);
 
-			newDebuffs.Clear();
+			NewDebuffs.Clear();
 		}
 
-		foreach (Debuff debuff in debuffsToRemove) 
+		foreach (Debuff debuff in DebuffsToRemove) 
 		{
 			debuffs.Remove (debuff);
 		}
 
-		debuffsToRemove.Clear ();
+		DebuffsToRemove.Clear ();
 
 		foreach (Debuff debuff in debuffs) 
 		{
@@ -451,7 +477,7 @@ public abstract class Monster : MonoBehaviour
 
 	public void RemoveDebuff(Debuff debuff)
 	{
-		debuffsToRemove.Add (debuff);
+		DebuffsToRemove.Add (debuff);
 		debuffs.Remove (debuff);
 	}
 

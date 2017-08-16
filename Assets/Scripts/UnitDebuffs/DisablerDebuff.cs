@@ -10,7 +10,9 @@ public class DisablerDebuff : UnitDebuff {
 
 	public DisablerDebuff(Tower target, float duration) : base(target, duration)
 	{
-		this.slowingFactor = slowingFactor;
+		Debug.Log ("Disabling: " + target.GetComponentInChildren<Tower> ().gameObject);
+
+		target.DisabledByUnit = true;
 	}
 
 	public override void Update(){
@@ -20,6 +22,8 @@ public class DisablerDebuff : UnitDebuff {
 	}
 
 	public override void Remove(){
+		
+		target.DisabledByUnit = false;
 
 		base.Remove ();
 	}

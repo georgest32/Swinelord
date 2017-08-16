@@ -9,12 +9,6 @@ public class DisablerUnit : Monster {
 		
 	}
 
-	public void DisableTower(Tower target){
-		Debug.Log ("Disabling: " + Target.GetComponentInChildren<Tower> ().gameObject);
-
-		target.DisabledByUnit = true;
-	}
-
 	public override UnitDebuff GetUnitDebuff()
 	{
 		return new DisablerDebuff(Target, DebuffDuration);
@@ -22,8 +16,6 @@ public class DisablerUnit : Monster {
 
 	protected override void Attack()
 	{
-		DisableTower (Target);
-
 		base.Attack ();
 	}
 }

@@ -169,4 +169,10 @@ public class LevelManager : Singleton<LevelManager> {
 		path = AStar.GetPath (unit.GridPosition, target.GridPosition);
 		return path;
 	}
+
+	public Stack<Node> GeneratePathToNextPortal(Monster unit, Point portalPoint)
+	{
+		path = AStar.GetPath (unit.GridPosition, portalPoint);
+		return path;
+	}
 }

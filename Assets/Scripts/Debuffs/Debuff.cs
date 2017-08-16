@@ -28,7 +28,7 @@ public abstract class Debuff
 	public virtual void Remove(){
 
 		if (target != null) {
-			target.RemoveDebuff (this);
+			target.DebuffsToRemove.Add(this);
 		}
 
 	}

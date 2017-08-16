@@ -111,6 +111,8 @@ public class TileScript : MonoBehaviour {
 
 		GameManager.Instance.BuyTower ();
 
+		myTower.IsActive = true;
+
 		Walkable = false;
 	}
 

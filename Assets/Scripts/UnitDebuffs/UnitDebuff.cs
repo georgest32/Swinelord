@@ -28,7 +28,8 @@ public abstract class UnitDebuff
 	public virtual void Remove(){
 
 		if (target != null) {
-			target.GetComponentInChildren<Tower>().RemoveDebuff (this);
+			Debug.Log ("removing " + this);
+			target.UnitDebuffsToRemove.Add(this);
 		}
 
 	}
