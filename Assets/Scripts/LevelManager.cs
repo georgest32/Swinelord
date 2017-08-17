@@ -181,4 +181,10 @@ public class LevelManager : Singleton<LevelManager> {
 		path = AStar.GetPath (wallToLeap.GridPosition, portalPoint);
 		return path;
 	}
+
+	public Stack<Node> GeneratePathToLeapWall(Point portal, TileScript wallToLeap)
+	{
+		path = AStar.GetPath (portal, wallToLeap.GridPosition);
+		return path;
+	}
 }

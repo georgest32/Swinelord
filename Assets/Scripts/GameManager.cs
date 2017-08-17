@@ -64,6 +64,8 @@ public class GameManager : Singleton<GameManager> {
 
 	public ObjectPool Pool { get; set; }
 
+	public bool PlacingWalls = false;
+
 	public TileScript WallToLeap 
 	{
 		get 
@@ -150,8 +152,12 @@ public class GameManager : Singleton<GameManager> {
 
 	public void PickTower(TowerBtn towerBtn)
 	{
+		if (ClickedBtn != null) 
+		{
+			Hover.Instance.Deactivate ();
+		}
 		
-		if (Currency >= towerBtn.Price && !WaveActive) 
+		else if (Currency >= towerBtn.Price && !WaveActive) 
 		{
 			this.ClickedBtn = towerBtn;
 			Hover.Instance.Activate (towerBtn.Sprite);
@@ -166,7 +172,17 @@ public class GameManager : Singleton<GameManager> {
 			Currency -= ClickedBtn.Price;
 		}
 
-		Hover.Instance.Deactivate ();
+		if (ClickedBtn.name == "WallBtn") 
+		{
+			if (Input.GetMouseButtonUp (0)) 
+			{
+				Hover.Instance.Deactivate ();
+			}
+		} 
+		else 
+		{
+			Hover.Instance.Deactivate ();
+		}
 	}
 
 	public void OnCurrencyChanged()

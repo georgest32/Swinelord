@@ -39,10 +39,14 @@ public class Portal : MonoBehaviour {
 
 		RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 
-		if (!EventSystem.current.IsPointerOverGameObject () && hit != null && hit.transform.gameObject.GetComponent<Portal>()) {
+		if (!EventSystem.current.IsPointerOverGameObject () && hit != null && hit.transform.gameObject.GetComponent<Portal>()) 
+		{
 			GameManager.Instance.SelectedPortal = hit.transform.gameObject;
+
 			Hover.Instance.Activate (GameManager.Instance.SelectedPortal.GetComponent<SpriteRenderer> ().sprite);
+
 			GameManager.Instance.ChangingPortal = true;
+
 			GameManager.Instance.SelectedPortal.SetActive(false);
 		}
 	}

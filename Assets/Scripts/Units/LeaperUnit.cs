@@ -26,6 +26,8 @@ public class LeaperUnit : Monster {
 
 	protected override void OnTriggerEnter2D(Collider2D other)
 	{
+		base.OnTriggerEnter2D (other);
+
 		if (GameManager.Instance.WallToLeap != null) {
 			
 			if (other.name == "WallUnitStopper" && other.transform.parent.parent.GetComponent<TileScript> ().GridPosition == GameManager.Instance.WallToLeap.GridPosition && !StoleBacon) {
@@ -40,9 +42,13 @@ public class LeaperUnit : Monster {
 				Stack<Node> newPath = LevelManager.Instance.GeneratePathToLeap (GameManager.Instance.WallToLeap, LevelManager.Instance.BlueSpawn);
 				SetPath(newPath);
 			}
-		}
+			else if (other.tag == "RedPortal") {
+				Leaped = false;
 
-		base.OnTriggerEnter2D (other);
+				Stack<Node> newPath = LevelManager.Instance.GeneratePathToLeapWall (LevelManager.Instance.RedSpawn, GameManager.Instance.WallToLeap);
+				SetPath (newPath);
+			}
+		}
 	}
 }
 //

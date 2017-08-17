@@ -101,12 +101,19 @@ public class TileScript : MonoBehaviour {
 				{
 					ColorTile (fullColor);
 				} 
-				else if (Input.GetMouseButtonDown (0)) 
+				else if (Input.GetMouseButton (0)) 
+				{
+					if (GameManager.Instance.ClickedBtn.name == "WallBtn") 
+					{
+						PlaceTower ();
+					} 
+				} 
+				else if (Input.GetMouseButtonUp (0)) 
 				{
 					PlaceTower ();
 				}
 			} 
-			else if (!EventSystem.current.IsPointerOverGameObject () && GameManager.Instance.ClickedBtn == null && Input.GetMouseButtonDown (0)) 
+			else if (!EventSystem.current.IsPointerOverGameObject () && GameManager.Instance.ClickedBtn == null && Input.GetMouseButtonUp (0)) 
 			{
 				if (myTower != null) 
 				{
