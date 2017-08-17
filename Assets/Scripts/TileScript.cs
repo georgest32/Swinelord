@@ -35,10 +35,7 @@ public class TileScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (GameManager.Instance.WallToLeap == this) 
-		{
-			this.spriteRenderer.color = Color.red;
-		}
+
 	}
 
 	public void Setup(Point gridPosition, Vector3 worldPosition, Transform parent)
@@ -54,43 +51,95 @@ public class TileScript : MonoBehaviour {
 
 	private void OnMouseOver()
 	{
-		if (GameManager.Instance.ChangingPortal && Input.GetMouseButtonUp (0)) 
+		if (GameManager.Instance.ChoosingWallToLeap) 
 		{
-			PlacePortal ();
-		} 
-		else if (!EventSystem.current.IsPointerOverGameObject () && GameManager.Instance.ClickedBtn != null) 
-		{
-			if (IsEmpty && !Debugging) 
+			if (this.transform.childCount > 0 && this.transform.GetChild (0).tag == "Wall") 
 			{
-				ColorTile (emptyColor);
-			}
-
-			if (!IsEmpty && !Debugging) 
+				this.transform.GetChild (0).GetComponent<SpriteRenderer> ().color = Color.green;
+			} 
+			else
 			{
 				ColorTile (fullColor);
 			} 
-			else if (Input.GetMouseButtonDown (0)) 
+
+			if (!EventSystem.current.IsPointerOverGameObject () && Input.GetMouseButtonDown (0)) 
 			{
-				PlaceTower ();
+				if (this.transform.GetChild (0).tag == "Wall") 
+				{
+					if (GameManager.Instance.WallToLeap != null) 
+					{
+						GameManager.Instance.WallToLeap.transform.GetChild (0).GetComponent<SpriteRenderer> ().color = Color.white;
+
+						GameManager.Instance.WallToLeap = null;
+					}
+					GameManager.Instance.WallToLeap = this;
+
+					this.transform.GetChild (0).GetComponent<SpriteRenderer> ().color = Color.green;
+
+					GameManager.Instance.ChoosingWallToLeap = false;
+
+					GameManager.Instance.ResetWallLayer ();
+
+					GameManager.Instance.WhitewashNonWallToLeaps ();
+				}
 			}
 		} 
-		else if (!EventSystem.current.IsPointerOverGameObject () && GameManager.Instance.ClickedBtn == null && Input.GetMouseButtonDown (0)) 
+		else 
 		{
-			if (myTower != null) 
+			if (GameManager.Instance.ChangingPortal && Input.GetMouseButtonUp (0)) 
 			{
-				GameManager.Instance.SelectTower (myTower);
+				PlacePortal ();
 			} 
-			else 
+			else if (!EventSystem.current.IsPointerOverGameObject () && GameManager.Instance.ClickedBtn != null) 
 			{
-				
-				GameManager.Instance.DeselectTower ();
-			}
-		} 
+				if (IsEmpty && !Debugging && !GameManager.Instance.ChoosingWallToLeap) 
+				{
+					ColorTile (emptyColor);
+				}
+
+				if (!IsEmpty && !Debugging && !GameManager.Instance.ChoosingWallToLeap) 
+				{
+					ColorTile (fullColor);
+				} 
+				else if (Input.GetMouseButtonDown (0)) 
+				{
+					PlaceTower ();
+				}
+			} 
+			else if (!EventSystem.current.IsPointerOverGameObject () && GameManager.Instance.ClickedBtn == null && Input.GetMouseButtonDown (0)) 
+			{
+				if (myTower != null) 
+				{
+					GameManager.Instance.SelectTower (myTower);
+				} 
+				else 
+				{
+					GameManager.Instance.DeselectTower ();
+				}
+			} 
+		}
 	}
 
 	private void OnMouseExit()
 	{
-		if (!Debugging) 
+		if (GameManager.Instance.ChoosingWallToLeap)
+		{
+			if (this.transform.childCount > 0 && this.transform.GetChild (0).tag == "Wall") 
+			{
+				this.transform.GetChild (0).GetComponent<SpriteRenderer> ().color = Color.white;
+			} 
+
+			if (this.transform.childCount > 0 && this.transform.GetChild (0).tag == "Tower") 
+			{
+				ColorTile (Color.grey);
+				this.transform.GetChild (0).GetComponent<SpriteRenderer> ().color = Color.grey;
+			} 
+			else 
+			{
+				ColorTile (Color.grey);
+			}
+		}
+		else if (!Debugging) 
 		{
 			ColorTile (Color.white);
 		}

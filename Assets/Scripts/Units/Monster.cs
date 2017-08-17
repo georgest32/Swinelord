@@ -67,6 +67,8 @@ public abstract class Monster : MonoBehaviour
 
 	private float attackTimer;
 
+	public bool Leaped = false;
+
 	public Point TargetLocation 
 	{
 		get 
@@ -190,11 +192,10 @@ public abstract class Monster : MonoBehaviour
 		health.Initialize ();
 	}
 
-	private void Update()
+	protected virtual void Update()
 	{
 		HandleDebuffs ();
 		Move ();
-		Debug.Log ("atTarget: " + atTarget);
 
 		if (Attacker && atTarget || Attacker && towers.Count > 0) 
 		{
@@ -283,9 +284,8 @@ public abstract class Monster : MonoBehaviour
 		}
 	}
 
-	private void SetPath(Stack<Node> newPath)
+	public void SetPath(Stack<Node> newPath)
 	{
-		Debug.Log ("Setting path");
 		if (newPath != null) 
 		{
 			this.path = newPath;
@@ -391,7 +391,7 @@ public abstract class Monster : MonoBehaviour
 		}
 	}
 
-	public void OnTriggerEnter2D(Collider2D other)
+	protected virtual void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.tag == "Tower" && Attacker) 
 		{
@@ -425,6 +425,8 @@ public abstract class Monster : MonoBehaviour
 		{
 			this.bacon += 10;
 			this.stoleBacon = true;
+
+			Leaped = false;
 
 			Stack<Node> newPath = LevelManager.Instance.GeneratePathRedToBlue ();
 

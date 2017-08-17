@@ -332,6 +332,71 @@ public class GameManager : Singleton<GameManager> {
 
 	public void SelectWallToLeap()
 	{
+		WallTower[] walls = GameObject.FindObjectsOfType<WallTower> ();
+
+		if (ChoosingWallToLeap) {
+			WhitewashNonWallToLeaps ();
+		}
+
+		if (!ChoosingWallToLeap) {
+			GreyoutNonWalls ();
+		}
+
 		ChoosingWallToLeap = !ChoosingWallToLeap;
+
+		foreach (WallTower wall in walls) {
+			wall.gameObject.layer = 2;
+			wall.transform.parent.gameObject.layer = 2;
+			wall.transform.parent.GetChild (1).gameObject.layer = 2;
+		}
+	}
+
+	public void ResetWallLayer()
+	{
+		WallTower[] walls = GameObject.FindObjectsOfType<WallTower> ();
+	
+		foreach (WallTower wall in walls) {
+			wall.gameObject.layer = 0;
+			wall.transform.parent.gameObject.layer = 0;
+			wall.transform.parent.GetChild (1).gameObject.layer = 0;
+		}
+	}
+
+	public void GreyoutNonWalls()
+	{
+		TileScript[] tiles = GameObject.FindObjectsOfType<TileScript> ();
+		Tower[] towers = GameObject.FindObjectsOfType<Tower> ();
+
+		foreach (TileScript tile in tiles) 
+		{
+			tile.GetComponent<SpriteRenderer> ().color = Color.grey;
+		}
+			
+		foreach (Tower tower in towers) 
+		{
+			if (tower.transform.parent.tag != "Wall") 
+			{
+				tower.transform.parent.GetComponent<SpriteRenderer> ().color = Color.grey;
+			}
+		}
+	}
+
+	public void WhitewashNonWallToLeaps()
+	{
+		TileScript[] tiles = GameObject.FindObjectsOfType<TileScript> ();
+		Tower[] towers = GameObject.FindObjectsOfType<Tower> ();
+
+		foreach (TileScript tile in tiles) 
+		{
+			tile.GetComponent<SpriteRenderer> ().color = Color.white;
+		}
+
+		foreach (Tower tower in towers) 
+		{
+			if (tower.transform.parent.tag != "Wall") 
+			{
+				tower.transform.parent.GetComponent<SpriteRenderer> ().color = Color.white;
+			}		
+		}
 	}
 }

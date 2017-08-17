@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public enum Element {PHYSICAL, ACID, POISON, FIRE, HALLOWED, NONE}
 
@@ -173,6 +174,15 @@ public abstract class Tower : MonoBehaviour {
 	{
 		Attack ();
 		HandleDebuffs ();
+
+		if (health.CurrentValue == health.MaxVal && transform.GetChild (0).gameObject.activeInHierarchy) 
+		{
+			transform.GetChild (0).gameObject.SetActive (false);
+		}
+		else if (health.CurrentValue < health.MaxVal && !transform.GetChild (0).gameObject.activeInHierarchy) 
+		{
+			transform.GetChild (0).gameObject.SetActive (true);
+		}
 	}
 
 	public void Select()
@@ -240,26 +250,6 @@ public abstract class Tower : MonoBehaviour {
 		if (other.tag == "Monster") 
 		{
 			target = null;
-		}
-	}
-
-	private void OnMouseOver()
-	{
-		Debug.Log (this.gameObject);
-
-		if (GameManager.Instance.ChoosingWallToLeap && Input.GetMouseButtonDown (0)) 
-		{
-			Debug.Log (this);
-
-			if (this.transform.GetChild (0).tag == "Wall") 
-			{
-				Debug.Log (this);
-				GameManager.Instance.WallToLeap = this.transform.parent.GetComponent<TileScript>();
-			} 
-			else 
-			{
-
-			}
 		}
 	}
 

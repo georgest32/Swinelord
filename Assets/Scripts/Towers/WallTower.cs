@@ -32,4 +32,6 @@ public class WallTower : Tower {
 	{
 		base.Upgrade ();
 	}
+
+
 }
