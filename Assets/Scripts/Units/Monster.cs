@@ -237,6 +237,12 @@ public abstract class Monster : MonoBehaviour
 
 		StartCoroutine (Scale (new Vector3 (0.1f, 0.1f), new Vector3 (1, 1), false));
 
+		if (this.gameObject.GetComponent<LeaperUnit>() != null) 
+		{
+			Stack<Node> newPath = LevelManager.Instance.GeneratePathToTarget (this, GameManager.Instance.WallToLeap);
+			SetPath (newPath);
+		}
+
 		SetPath (LevelManager.Instance.Path);
 	}
 
@@ -442,6 +448,8 @@ public abstract class Monster : MonoBehaviour
 	public void Release()
 	{
 		debuffs.Clear ();
+
+		Leaped = false;
 
 		IsActive = false;
 
