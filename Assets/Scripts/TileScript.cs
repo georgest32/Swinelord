@@ -16,9 +16,23 @@ public class TileScript : MonoBehaviour {
 
 	private SpriteRenderer spriteRenderer;
 
+	private bool discovered = false;
+
 	public bool Walkable { get; set; }
 
 	public bool Debugging { get; set; }
+
+	public bool Discovered 
+	{
+		get 
+		{
+			return discovered;
+		}
+		set 
+		{
+			discovered = value;
+		}
+	}
 
 	public Vector2 WorldPosition 
 	{ 
@@ -31,6 +45,7 @@ public class TileScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		spriteRenderer = GetComponent<SpriteRenderer> ();
+		GreyOutTile ();
 
 		if (transform.childCount == 0) {
 			Walkable = true;
@@ -50,6 +65,13 @@ public class TileScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+	}
+
+	private void OnTriggerEnter2D(Collider2D col)
+	{
+		if (!discovered && col.tag == "Monster") {
+			DiscoverTile ();
+		}
 	}
 
 	public void Setup(Point gridPosition, Vector3 worldPosition, Transform parent)
@@ -148,8 +170,9 @@ public class TileScript : MonoBehaviour {
 
 	private void OnMouseExit()
 	{
-		if (GameManager.Instance.ChoosingWallToLeap)
+		if (GameManager.Instance.ChoosingWallToLeap) 
 		{
+			
 			if (this.transform.childCount > 0 && this.transform.GetChild (0).tag == "Wall") 
 			{
 				this.transform.GetChild (0).GetComponent<SpriteRenderer> ().color = Color.white;
@@ -159,15 +182,18 @@ public class TileScript : MonoBehaviour {
 			{
 				ColorTile (Color.grey);
 				this.transform.GetChild (0).GetComponent<SpriteRenderer> ().color = Color.grey;
-			} 
-			else 
+			} else 
 			{
 				ColorTile (Color.grey);
 			}
-		}
-		else if (!Debugging) 
+		} 
+		else if (!Debugging && discovered) 
 		{
 			ColorTile (Color.white);
+		} 
+		else if (!Debugging && !discovered) 
+		{
+			ColorTile (Color.grey);
 		}
 	}
 
@@ -199,27 +225,37 @@ public class TileScript : MonoBehaviour {
 			spriteRenderer.color = newColor;
 	}
 
-	private void PlacePortal(){
+	private void PlacePortal()
+	{
 		GameObject portal = GameManager.Instance.SelectedPortal;
-
-//		Debug.Log ("tile pos: " + transform.position);
 
 		portal.transform.position = transform.position;
 		gameObject.GetComponent<SpriteRenderer> ().color = Color.white;
 
-//		Debug.Log ("portal pos: " + portal.transform.position);
-
 		portal.SetActive(true);
 					
-		if (GameManager.Instance.SelectedPortal.name == "BluePortal") {
+		if (GameManager.Instance.SelectedPortal.name == "BluePortal")
+		{
 			LevelManager.Instance.BlueSpawn = new Point (this.GridPosition.X, this.GridPosition.Y);
 		}
 
-		if (GameManager.Instance.SelectedPortal.name == "RedPortal(Clone)") {
+		if (GameManager.Instance.SelectedPortal.name == "RedPortal(Clone)") 
+		{
 			LevelManager.Instance.RedSpawn = new Point (this.GridPosition.X, this.GridPosition.Y);
 		}
 
 		Hover.Instance.Deactivate ();
 		GameManager.Instance.ChangingPortal = false;
+	}
+
+	private void GreyOutTile()
+	{
+		spriteRenderer.color = Color.grey;
+	}
+
+	public void DiscoverTile()
+	{
+		spriteRenderer.color = Color.white;
+		this.discovered = true;
 	}
 }

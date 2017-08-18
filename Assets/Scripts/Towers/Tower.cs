@@ -31,7 +31,6 @@ public abstract class Tower : MonoBehaviour {
 	[SerializeField]
 	private int hitPoints;
 
-	[SerializeField]
 	private int level;
 
 	private Animator myAnimator;
@@ -183,6 +182,11 @@ public abstract class Tower : MonoBehaviour {
 		else if (health.CurrentValue < health.MaxVal && !transform.GetChild (0).gameObject.activeInHierarchy) 
 		{
 			transform.GetChild (0).gameObject.SetActive (true);
+		}
+
+		if (!transform.parent.parent.GetComponent<TileScript> ().Discovered) 
+		{
+			this.transform.parent.GetComponent<SpriteRenderer> ().sortingOrder = -3;
 		}
 	}
 

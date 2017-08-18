@@ -49,6 +49,7 @@
      <Compile Include="Assets\AnimationBehaviours\DeathBehaviour.cs" />
      <Compile Include="Assets\AnimationBehaviours\ImpactBehaviour.cs" />
      <Compile Include="Assets\AnimationBehaviours\SpawnBehaviour.cs" />
+     <Compile Include="Assets\DiscoverTrigger.cs" />
      <Compile Include="Assets\Ingress.cs" />
      <Compile Include="Assets\Scripts\AStar\AStar.cs" />
      <Compile Include="Assets\Scripts\AStar\AStarDebugger.cs" />
@@ -98,6 +99,8 @@
      <Compile Include="Assets\Scripts\Units\ThiefUnit.cs" />
      <Compile Include="Assets\UnitStopper.cs" />
      <None Include="Assets\Resources\Level.txt" />
+     <None Include="Assets\Resources\FogOfWar\FogOfWarMask.shader" />
+     <None Include="Assets\Resources\FogOfWar\FogOfWar.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

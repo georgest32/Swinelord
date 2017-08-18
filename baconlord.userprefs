@@ -1,17 +1,6 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/SavableObject.cs">
-    <Files>
-      <File FileName="Assets/Scripts/SavableObject.cs" Line="52" Column="1" />
-      <File FileName="Assets/Scripts/SaveGameManager.cs" Line="146" Column="1" />
-      <File FileName="Assets/Scripts/SpecificObject.cs" Line="22" Column="12" />
-      <File FileName="Assets/Scripts/TileScript.cs" Line="27" Column="167" />
-      <File FileName="Assets/Scripts/LevelManager.cs" Line="70" Column="23" />
-      <File FileName="Assets/Scripts/Units/Monster.cs" Line="411" Column="1" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="73" Column="3" />
-      <File FileName="Assets/Scripts/AStar/AStar.cs" Line="27" Column="3" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
