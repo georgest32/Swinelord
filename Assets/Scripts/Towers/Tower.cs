@@ -31,6 +31,7 @@ public abstract class Tower : MonoBehaviour {
 	[SerializeField]
 	private int hitPoints;
 
+	[SerializeField]
 	private int level;
 
 	private Animator myAnimator;

@@ -31,6 +31,20 @@ public class TileScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		spriteRenderer = GetComponent<SpriteRenderer> ();
+
+		if (transform.childCount == 0) {
+			Walkable = true;
+			IsEmpty = true;
+		}
+
+		if (transform.childCount > 0) 
+		{
+			GameObject tower = transform.GetChild (0).gameObject;
+			this.myTower = tower.transform.GetChild (0).GetComponent<Tower> ();
+			Walkable = false;
+			IsEmpty = false;
+
+		}
 	}
 	
 	// Update is called once per frame
@@ -41,7 +55,11 @@ public class TileScript : MonoBehaviour {
 	public void Setup(Point gridPosition, Vector3 worldPosition, Transform parent)
 	{
 		Walkable = true;
-		IsEmpty = true;
+
+		if (transform.childCount == 0) {
+			IsEmpty = true;
+		}
+
 		this.GridPosition = gridPosition;
 		transform.position = worldPosition;
 		transform.SetParent (parent);
@@ -115,6 +133,7 @@ public class TileScript : MonoBehaviour {
 			} 
 			else if (!EventSystem.current.IsPointerOverGameObject () && GameManager.Instance.ClickedBtn == null && Input.GetMouseButtonUp (0)) 
 			{
+				Debug.Log (myTower);
 				if (myTower != null) 
 				{
 					GameManager.Instance.SelectTower (myTower);

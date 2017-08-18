@@ -242,6 +242,7 @@ public abstract class Monster : MonoBehaviour
 			Stack<Node> newPath = LevelManager.Instance.GeneratePathToTarget (this, GameManager.Instance.WallToLeap);
 			SetPath (newPath);
 		}
+		Debug.Log (LevelManager.Instance.Path);
 
 		SetPath (LevelManager.Instance.Path);
 	}

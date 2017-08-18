@@ -88,7 +88,7 @@ public class LevelManager : Singleton<LevelManager> {
 		
 	}
 		
-	private void CreateLevel()
+	public void CreateLevel()
 	{
 		Tiles = new Dictionary<Point, TileScript> ();
 

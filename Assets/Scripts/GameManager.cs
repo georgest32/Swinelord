@@ -35,12 +35,6 @@ public class GameManager : Singleton<GameManager> {
 	private GameObject gameOverMenu;
 
 	[SerializeField]
-	private Text livesText;
-
-	[SerializeField]
-	private Text waveText;
-
-	[SerializeField]
 	private Text currencyText;
 
 	[SerializeField]
@@ -58,6 +52,9 @@ public class GameManager : Singleton<GameManager> {
 	[SerializeField]
 	private Text upgradePrice;
 
+	[SerializeField]
+	private GameObject map;
+
 	private Tower selectedTower;
 
 	private List<Monster> activeMonsters = new List<Monster> ();
@@ -65,6 +62,18 @@ public class GameManager : Singleton<GameManager> {
 	public ObjectPool Pool { get; set; }
 
 	public bool PlacingWalls = false;
+
+	public GameObject Map 
+	{
+		get 
+		{
+			return map;
+		}
+		set 
+		{
+			map = value;
+		}
+	}
 
 	public TileScript WallToLeap 
 	{
@@ -113,26 +122,6 @@ public class GameManager : Singleton<GameManager> {
 		}
 	}
 
-	public int Lives
-	{
-		get 
-		{
-			return lives;
-		}
-		set 
-		{
-			this.lives = value;
-		
-			if (lives <= 0) 
-			{
-				this.lives = 0;
-				GameOver ();
-			}
-
-			livesText.text = lives.ToString ();
-		}
-	}
-
 	private void Awake ()
 	{
 		Pool = GetComponent<ObjectPool> ();
@@ -140,7 +129,6 @@ public class GameManager : Singleton<GameManager> {
 
 	void Start () 
 	{
-		Lives = 10;
 		Currency = 25;
 		ChangingPortal = false;
 	}

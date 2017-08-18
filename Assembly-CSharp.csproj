@@ -71,7 +71,10 @@
      <Compile Include="Assets\Scripts\Point.cs" />
      <Compile Include="Assets\Scripts\Portal.cs" />
      <Compile Include="Assets\Scripts\Projectile.cs" />
+     <Compile Include="Assets\Scripts\SavableObject.cs" />
+     <Compile Include="Assets\Scripts\SaveGameManager.cs" />
      <Compile Include="Assets\Scripts\Singleton.cs" />
+     <Compile Include="Assets\Scripts\SpecificObject.cs" />
      <Compile Include="Assets\Scripts\TileScript.cs" />
      <Compile Include="Assets\Scripts\TowerBtn.cs" />
      <Compile Include="Assets\Scripts\TowerUpgrade.cs" />
