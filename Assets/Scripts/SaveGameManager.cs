@@ -1,8 +1,8 @@
-﻿//using System.Collections;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text.RegularExpressions;
+using System;
 
 public class SaveGameManager : MonoBehaviour {
 
@@ -47,22 +47,35 @@ public class SaveGameManager : MonoBehaviour {
 	{
 		PlayerPrefs.SetInt ("ObjectCount", SavableObjects.Count);
 
-		for (int i = 0; i < SavableObjects.Count; i++) {
+		for (int i = 0; i < SavableObjects.Count; i++) 
+		{
+			if (SavableObjects [i].tag == "Wall" || SavableObjects [i].tag == "Tower") 
+			{
+				Debug.Log (SavableObjects [i].transform.GetChild (0).GetComponent<Tower> ().GridPosition.X);
+				SavableObjects [i].GridPosition = SavableObjects [i].transform.GetChild(0).GetComponent<Tower> ().GridPosition;
+			}
+			else if (SavableObjects [i].tag == "Tile") 
+			{
+				SavableObjects [i].GridPosition = SavableObjects [i].GetComponent<TileScript> ().GridPosition;
+			}
+
 			SavableObjects [i].Save (i);
 		}
 	}
 
 	public void Load()
 	{
-		LevelManager.Instance.Tiles.Clear ();
-
-		foreach (SavableObject obj in SavableObjects) {
-			if (obj != null) {
+		foreach (SavableObject obj in SavableObjects) 
+		{
+			if (obj != null) 
+			{
 				Destroy(obj.gameObject);
 			}
 		}
 
 		SavableObjects.Clear ();
+
+		LevelManager.Instance.Tiles.Clear ();
 
 		int objectCount = PlayerPrefs.GetInt ("ObjectCount");
 
@@ -94,6 +107,7 @@ public class SaveGameManager : MonoBehaviour {
 			}
 		}
 
+		AStar.CreateNodes ();
 	}
 
 	public Vector3 StringToVector3(string value)
@@ -151,8 +165,16 @@ public class SaveGameManager : MonoBehaviour {
 
 		//1,24,4
 		string[] pos = value.Split (',');
-
 		//[0] = 1 [1] = 24 [2] = 4
-		return new Point((int)float.Parse(pos[0]), (int)float.Parse(pos[1]));
+
+		int pointX = Convert.ToInt32 (float.Parse (pos [0]));
+		int pointY = Convert.ToInt32 (float.Parse (pos [1]));
+
+		Point newPoint = new Point (pointX, pointY);
+//		Debug.Log (newPoint.X + ", " + newPoint.Y);
+
+//		transform.GetChild(0).GetComponent<Tower> ().GridPosition = SaveGameManager.Instance.StringToPoint (values [4]);
+
+		return newPoint;
 	}
 }

@@ -115,10 +115,13 @@ public class LevelManager : Singleton<LevelManager> {
 
 		maxTile = Tiles [new Point (mapX - 1, mapY - 1)].transform.position;
 
-		cameraMovement.SetLimits (new Vector3(maxTile.x + TileSize, maxTile.y - TileSize ));
 
-		// Point of Ingress and Stash Points used as args
-		SpawnPortals (blueSpawn, redSpawn);
+		if (GameObject.FindGameObjectWithTag ("BluePortal") == null) {
+			cameraMovement.SetLimits (new Vector3 (maxTile.x + TileSize, maxTile.y - TileSize));
+
+			// Point of Ingress and Stash Points used as args
+			SpawnPortals (blueSpawn, redSpawn);
+		}
 	}
 
 	private void PlaceTile(string tileType, int x, int y, Vector3 worldStart)
@@ -155,6 +158,8 @@ public class LevelManager : Singleton<LevelManager> {
 
 	public void GeneratePathBlueToRed()
 	{
+		Debug.Log (blueSpawn.X + ", " + blueSpawn.Y);
+		Debug.Log (redSpawn.X + ", " + redSpawn.Y);
 		path = AStar.GetPath (blueSpawn, redSpawn);
 	}
 

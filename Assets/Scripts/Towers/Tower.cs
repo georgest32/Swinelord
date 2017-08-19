@@ -33,6 +33,10 @@ public abstract class Tower : MonoBehaviour {
 
 	private int level;
 
+	private Vector2 worldPosition;
+
+	private Point gridPosition;
+
 	private Animator myAnimator;
 
 	private List<UnitDebuff> unitDebuffs = new List<UnitDebuff> ();
@@ -66,6 +70,30 @@ public abstract class Tower : MonoBehaviour {
 	public float ProjectileSpeed { get { return projectileSpeed; } }
 
 	public Monster Target { get{ return target; } }
+
+	public Vector2 WorldPosition 
+	{
+		get 
+		{
+			return worldPosition;
+		}
+		set 
+		{
+			worldPosition = value;
+		}
+	}
+
+	public Point GridPosition 
+	{
+		get 
+		{
+			return gridPosition;
+		}
+		set 
+		{
+			gridPosition = value;
+		}
+	}
 
 	public int HitPoints {
 		get {
@@ -184,7 +212,7 @@ public abstract class Tower : MonoBehaviour {
 			transform.GetChild (0).gameObject.SetActive (true);
 		}
 
-		if (!transform.parent.parent.GetComponent<TileScript> ().Discovered) 
+		if (transform.parent.parent != null && !transform.parent.parent.GetComponent<TileScript> ().Discovered) 
 		{
 			this.transform.parent.GetComponent<SpriteRenderer> ().sortingOrder = -3;
 		}

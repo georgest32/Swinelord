@@ -13,7 +13,7 @@ public static class AStar
 	/// <summary>
 	/// Creates a node for each tile in the game
 	/// </summary>
-	private static void CreateNodes()
+	public static void CreateNodes()
 	{
 		//Instantiates the dicationary
 		nodes = new Dictionary<Point, Node>();
@@ -32,6 +32,7 @@ public static class AStar
 	/// <param name="start">The start of the path</param>
 	public static Stack<Node> GetPath(Point start, Point goal)
 	{
+
 		if (nodes == null) //If we don't have nodes then we need to create them
 		{
 			CreateNodes();
@@ -49,6 +50,9 @@ public static class AStar
 
 		//Finds the start node and creates a reference to it called current node
 		Node currentNode = nodes[start];
+
+		Debug.Log (nodes[start]);
+
 					
 		//1. Adds the start node to the OpenList
 		openList.Add(currentNode);

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TileScript : MonoBehaviour {
 
-	public Point GridPosition { get; private set; }
+	public Point GridPosition { get; set; }
 
 	public bool IsEmpty { get; set; }
 
@@ -40,6 +40,7 @@ public class TileScript : MonoBehaviour {
 		{
 			return new Vector2(transform.position.x + (GetComponent<SpriteRenderer>().bounds.size.x/2), transform.position.y - (GetComponent<SpriteRenderer>().bounds.size.y/2));
 		}
+		set {}
 	}
 
 	// Use this for initialization
@@ -155,7 +156,6 @@ public class TileScript : MonoBehaviour {
 			} 
 			else if (!EventSystem.current.IsPointerOverGameObject () && GameManager.Instance.ClickedBtn == null && Input.GetMouseButtonUp (0)) 
 			{
-				Debug.Log (myTower);
 				if (myTower != null) 
 				{
 					GameManager.Instance.SelectTower (myTower);
@@ -212,6 +212,9 @@ public class TileScript : MonoBehaviour {
 		ColorTile (Color.white);
 
 		myTower.Price = GameManager.Instance.ClickedBtn.Price;
+
+		myTower.GridPosition = this.GridPosition;
+		myTower.WorldPosition = this.WorldPosition;
 
 		GameManager.Instance.BuyTower ();
 
