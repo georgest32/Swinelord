@@ -51,12 +51,19 @@ public class SaveGameManager : MonoBehaviour {
 		{
 			if (SavableObjects [i].tag == "Wall" || SavableObjects [i].tag == "Tower") 
 			{
-				Debug.Log (SavableObjects [i].transform.GetChild (0).GetComponent<Tower> ().GridPosition.X);
 				SavableObjects [i].GridPosition = SavableObjects [i].transform.GetChild(0).GetComponent<Tower> ().GridPosition;
 			}
 			else if (SavableObjects [i].tag == "Tile") 
 			{
 				SavableObjects [i].GridPosition = SavableObjects [i].GetComponent<TileScript> ().GridPosition;
+			}
+			else if (SavableObjects [i].tag == "BluePortal") 
+			{
+				SavableObjects [i].GridPosition = LevelManager.Instance.BlueSpawn;
+			}
+			else if (SavableObjects [i].tag == "RedPortal") 
+			{
+				SavableObjects [i].GridPosition = LevelManager.Instance.RedSpawn;
 			}
 
 			SavableObjects [i].Save (i);
@@ -92,6 +99,12 @@ public class SaveGameManager : MonoBehaviour {
 				break;
 			case "GREYTILE":
 				tmp = Instantiate(Resources.Load("Prefabs/GreyTile") as GameObject);
+				break;
+			case "BLUEPORTAL":
+				tmp = Instantiate(Resources.Load("Prefabs/BluePortal") as GameObject);
+				break;
+			case "REDPORTAL":
+				tmp = Instantiate(Resources.Load("Prefabs/RedPortal") as GameObject);
 				break;
 			case "WALL":
 				tmp = Instantiate(Resources.Load("Prefabs/Towers/Wall") as GameObject);

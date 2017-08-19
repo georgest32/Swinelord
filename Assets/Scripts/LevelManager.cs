@@ -32,6 +32,8 @@ public class LevelManager : Singleton<LevelManager> {
 
 	public Portal BluePortal { get; set; }
 
+	public Portal RedPortal { get; set; }
+
 	private Point mapSize;
 
 	private Stack<Node> path;
@@ -146,9 +148,12 @@ public class LevelManager : Singleton<LevelManager> {
 		
 		GameObject tmp = (GameObject)Instantiate (bluePortalPrefab, Tiles [blueSpawn].GetComponent<TileScript>().WorldPosition, Quaternion.identity);
 		BluePortal = tmp.GetComponent<Portal> ();
-		BluePortal.name = "BluePortal";
 
-		Instantiate (redPortalPrefab, Tiles [redSpawn].GetComponent<TileScript>().WorldPosition, Quaternion.identity);
+		RedPortal = Instantiate (redPortalPrefab, Tiles [redSpawn].GetComponent<TileScript>().WorldPosition, Quaternion.identity).GetComponent<Portal> ();
+
+		BluePortal.transform.SetParent (LevelManager.Instance.Tiles[LevelManager.Instance.BlueSpawn].transform);
+		RedPortal.transform.SetParent (LevelManager.Instance.Tiles[LevelManager.Instance.RedSpawn].transform);
+
 	}
 
 	public bool InBounds(Point position)

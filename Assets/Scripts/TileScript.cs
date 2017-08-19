@@ -55,11 +55,13 @@ public class TileScript : MonoBehaviour {
 
 		if (transform.childCount > 0) 
 		{
-			GameObject tower = transform.GetChild (0).gameObject;
-			this.myTower = tower.transform.GetChild (0).GetComponent<Tower> ();
-			Walkable = false;
-			IsEmpty = false;
-
+			if(transform.GetChild (0).gameObject.tag == "Tower")
+			{
+				GameObject tower = transform.GetChild (0).gameObject;
+				this.myTower = tower.transform.GetChild (0).GetComponent<Tower> ();
+				Walkable = false;
+				IsEmpty = false;
+			}
 		}
 
 		if (SceneManager.GetActiveScene () == SceneManager.GetSceneByName("Home")) {
@@ -247,11 +249,13 @@ public class TileScript : MonoBehaviour {
 		if (GameManager.Instance.SelectedPortal.name == "BluePortal")
 		{
 			LevelManager.Instance.BlueSpawn = new Point (this.GridPosition.X, this.GridPosition.Y);
+			portal.transform.SetParent (LevelManager.Instance.Tiles[LevelManager.Instance.BlueSpawn].transform);
 		}
 
 		if (GameManager.Instance.SelectedPortal.name == "RedPortal(Clone)") 
 		{
 			LevelManager.Instance.RedSpawn = new Point (this.GridPosition.X, this.GridPosition.Y);
+			portal.transform.SetParent (LevelManager.Instance.Tiles[LevelManager.Instance.RedSpawn].transform);
 		}
 
 		Hover.Instance.Deactivate ();

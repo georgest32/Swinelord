@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-enum ObjectType {NONE, MAP, WHITETILE, GREYTILE, WALL, SWINETOWER}
+enum ObjectType {NONE, MAP, BLUEPORTAL, REDPORTAL, WHITETILE, GREYTILE, WALL, SWINETOWER}
 
 public abstract class SavableObject : MonoBehaviour {
 
@@ -50,6 +50,17 @@ public abstract class SavableObject : MonoBehaviour {
 			WorldPosition = SaveGameManager.Instance.StringToVector2 (values [5]);
 		}
 
+		if (this.tag == "BluePortal") 
+		{
+			LevelManager.Instance.BluePortal = GetComponent<Portal> ();
+			LevelManager.Instance.BlueSpawn = SaveGameManager.Instance.StringToPoint (values [4]);
+		}
+
+		if (this.tag == "RedPortal") 
+		{
+			LevelManager.Instance.RedPortal = GetComponent<Portal> ();
+			LevelManager.Instance.RedSpawn = SaveGameManager.Instance.StringToPoint (values [4]);
+		}
 	}
 
 	public void DestroySavable()

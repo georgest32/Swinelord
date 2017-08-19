@@ -14,9 +14,21 @@ public class Portal : MonoBehaviour {
 
 	public GameObject PortalPrefab { get{ return portalPrefab; } }
 
+	[SerializeField]
+	private bool discovered;
+
 	// Use this for initialization
 	void Start () {
 		myAnimator = GetComponent<Animator> ();
+
+		if (!discovered) 
+		{
+			GetComponent<SpriteRenderer> ().enabled = false;
+		} 
+		else if (discovered) 
+		{
+			GetComponent<SpriteRenderer> ().enabled = true;
+		}
 	}
 
 	void Update()
@@ -26,8 +38,16 @@ public class Portal : MonoBehaviour {
 			SelectPortal ();
 		}
 	}
+
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		if (this.tag == "Monster" && !discovered) 
+		{
+			discovered = true;
+			GetComponent<SpriteRenderer> ().enabled = true;
+		}
+	}
 	
-	// Update is called once per frame
 	public void Open () {
 		myAnimator.SetTrigger ("Open");
 	}

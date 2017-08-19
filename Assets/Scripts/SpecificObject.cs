@@ -29,10 +29,20 @@ public class SpecificObject : SavableObject {
 			this.transform.SetParent (SaveGameManager.Instance.Map);
 		}
 
-		if (this.tag == "Tower" || this.tag == "Wall") 
+		else if (this.tag == "Tower" || this.tag == "Wall") 
 		{
 			TileScript towerParent = LevelManager.Instance.Tiles [GridPosition];
 			this.transform.SetParent (towerParent.transform);
+		}
+
+		else if (this.tag == "BluePortal") 
+		{
+			LevelManager.Instance.BluePortal = this.GetComponent<Portal> ();
+		}
+
+		else if (this.tag == "RedPortal") 
+		{
+			LevelManager.Instance.RedPortal = this.GetComponent<Portal> ();
 		}
 	}
 }
