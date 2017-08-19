@@ -158,8 +158,6 @@ public class LevelManager : Singleton<LevelManager> {
 
 	public void GeneratePathBlueToRed()
 	{
-		Debug.Log (blueSpawn.X + ", " + blueSpawn.Y);
-		Debug.Log (redSpawn.X + ", " + redSpawn.Y);
 		path = AStar.GetPath (blueSpawn, redSpawn);
 	}
 

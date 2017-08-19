@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TileScript : MonoBehaviour {
 
@@ -46,7 +47,6 @@ public class TileScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		spriteRenderer = GetComponent<SpriteRenderer> ();
-		GreyOutTile ();
 
 		if (transform.childCount == 0) {
 			Walkable = true;
@@ -61,6 +61,13 @@ public class TileScript : MonoBehaviour {
 			IsEmpty = false;
 
 		}
+
+		if (SceneManager.GetActiveScene () == SceneManager.GetSceneByName("Home")) {
+			discovered = true;
+		}
+		else 
+			GreyOutTile ();
+
 	}
 	
 	// Update is called once per frame

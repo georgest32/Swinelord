@@ -50,9 +50,6 @@ public static class AStar
 
 		//Finds the start node and creates a reference to it called current node
 		Node currentNode = nodes[start];
-
-		Debug.Log (nodes[start]);
-
 					
 		//1. Adds the start node to the OpenList
 		openList.Add(currentNode);

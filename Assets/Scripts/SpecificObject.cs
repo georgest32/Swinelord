@@ -32,11 +32,7 @@ public class SpecificObject : SavableObject {
 		if (this.tag == "Tower" || this.tag == "Wall") 
 		{
 			TileScript towerParent = LevelManager.Instance.Tiles [GridPosition];
-			gameObject.GetComponent<SpriteRenderer> ().sortingOrder = GridPosition.Y;
-
 			this.transform.SetParent (towerParent.transform);
-
-			Debug.Log (this.gameObject.GetComponent<SpriteRenderer> ().sortingOrder);
 		}
 	}
 }
