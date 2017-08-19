@@ -17,7 +17,6 @@ public class Portal : MonoBehaviour {
 	[SerializeField]
 	private bool discovered;
 
-	// Use this for initialization
 	void Start () {
 		myAnimator = GetComponent<Animator> ();
 
@@ -41,10 +40,10 @@ public class Portal : MonoBehaviour {
 
 	private void OnTriggerEnter2D(Collider2D other)
 	{
-		if (this.tag == "Monster" && !discovered) 
+		if (other.tag == "Monster" && !discovered) 
 		{
-			discovered = true;
 			GetComponent<SpriteRenderer> ().enabled = true;
+			discovered = true;
 		}
 	}
 	

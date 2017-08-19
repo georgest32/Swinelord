@@ -97,6 +97,7 @@
      <Compile Include="Assets\Scripts\Units\LeaperUnit.cs" />
      <Compile Include="Assets\Scripts\Units\Monster.cs" />
      <Compile Include="Assets\Scripts\Units\ThiefUnit.cs" />
+     <Compile Include="Assets\UnitDT.cs" />
      <None Include="Assets\Resources\Level.txt" />
      <None Include="Assets\Resources\FogOfWar\FogOfWarMask.shader" />
      <None Include="Assets\Resources\FogOfWar\FogOfWar.shader" />

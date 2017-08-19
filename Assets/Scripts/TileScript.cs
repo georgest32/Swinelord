@@ -70,6 +70,10 @@ public class TileScript : MonoBehaviour {
 		else 
 			GreyOutTile ();
 
+		if (!discovered && transform.childCount > 0) {
+			transform.GetChild(0).GetComponent<SpriteRenderer> ().enabled = false;
+		}
+
 	}
 	
 	// Update is called once per frame
@@ -131,6 +135,15 @@ public class TileScript : MonoBehaviour {
 					GameManager.Instance.ResetWallLayer ();
 
 					GameManager.Instance.WhitewashNonWallToLeaps ();
+
+					TileScript[] tiles = GameObject.FindObjectsOfType<TileScript>();
+
+					foreach (TileScript tile in tiles) {
+						if (tile.Discovered) {
+							tile.GetComponent<SpriteRenderer> ().color = Color.white;
+						} else
+							tile.GetComponent<SpriteRenderer> ().color = Color.grey;
+					}
 				}
 			}
 		} 
@@ -189,11 +202,11 @@ public class TileScript : MonoBehaviour {
 
 			if (this.transform.childCount > 0 && this.transform.GetChild (0).tag == "Tower") 
 			{
-				ColorTile (Color.grey);
-				this.transform.GetChild (0).GetComponent<SpriteRenderer> ().color = Color.grey;
+				ColorTile (new Color32(255,0,0,100));
+				this.transform.GetChild (0).GetComponent<SpriteRenderer> ().color = new Color32(255,0,0,100);
 			} else 
 			{
-				ColorTile (Color.grey);
+				ColorTile (new Color32(255,0,0,100));
 			}
 		} 
 		else if (!Debugging && discovered) 

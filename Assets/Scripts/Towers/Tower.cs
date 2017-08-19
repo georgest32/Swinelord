@@ -214,7 +214,7 @@ public abstract class Tower : MonoBehaviour {
 
 		if (transform.parent.parent != null && !transform.parent.parent.GetComponent<TileScript> ().Discovered) 
 		{
-			this.transform.parent.GetComponent<SpriteRenderer> ().sortingOrder = -3;
+			this.transform.parent.GetComponent<SpriteRenderer> ().sortingOrder = -9;
 		}
 	}
 

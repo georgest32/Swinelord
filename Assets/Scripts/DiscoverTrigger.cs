@@ -11,6 +11,7 @@ public class DiscoverTrigger : MonoBehaviour {
 			this.transform.parent.GetComponent<SpriteRenderer> ().sortingOrder = 1;
 			transform.parent.parent.GetComponent<TileScript> ().Discovered = true;
 			transform.parent.parent.GetComponent<TileScript> ().DiscoverTile();
+			transform.parent.GetComponent<SpriteRenderer> ().enabled = true;
 		}
 	}
 }

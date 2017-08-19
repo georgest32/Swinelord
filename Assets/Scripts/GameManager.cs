@@ -275,6 +275,8 @@ public class GameManager : Singleton<GameManager> {
 			Destroy (selectedTower.transform.parent.gameObject);
 
 			DeselectTower ();
+
+			selectedTower.transform.parent.GetComponent<SpecificObject>().DestroySavable ();
 		}
 	}
 
@@ -340,6 +342,15 @@ public class GameManager : Singleton<GameManager> {
 
 		if (ChoosingWallToLeap) {
 			WhitewashNonWallToLeaps ();
+
+			TileScript[] tiles = GameObject.FindObjectsOfType<TileScript>();
+
+			foreach (TileScript tile in tiles) {
+				if (tile.Discovered) {
+					tile.GetComponent<SpriteRenderer> ().color = Color.white;
+				} else
+					tile.GetComponent<SpriteRenderer> ().color = Color.grey;
+			}
 		}
 
 		if (!ChoosingWallToLeap) {
@@ -349,9 +360,12 @@ public class GameManager : Singleton<GameManager> {
 		ChoosingWallToLeap = !ChoosingWallToLeap;
 
 		foreach (WallTower wall in walls) {
-			wall.gameObject.layer = 2;
-			wall.transform.parent.gameObject.layer = 2;
-			wall.transform.parent.GetChild (1).gameObject.layer = 2;
+			if (wall.transform.parent.parent.GetComponent<TileScript> ().Discovered) {
+				Debug.Log (walls.Length > 0);
+				wall.gameObject.layer = 2;
+				wall.transform.parent.gameObject.layer = 2;
+				wall.transform.parent.GetChild (1).gameObject.layer = 2;
+			}
 		}
 	}
 
@@ -360,9 +374,12 @@ public class GameManager : Singleton<GameManager> {
 		WallTower[] walls = GameObject.FindObjectsOfType<WallTower> ();
 	
 		foreach (WallTower wall in walls) {
-			wall.gameObject.layer = 0;
-			wall.transform.parent.gameObject.layer = 0;
-			wall.transform.parent.GetChild (1).gameObject.layer = 0;
+			if (wall.transform.parent.parent.GetComponent<TileScript> ().Discovered) {
+				wall.gameObject.layer = 0;
+				wall.transform.parent.gameObject.layer = 0;
+				wall.transform.parent.GetChild (1).gameObject.layer = 0;
+				wall.transform.parent.parent.GetComponent<SpriteRenderer> ().color = Color.white;
+			}
 		}
 	}
 
@@ -373,14 +390,14 @@ public class GameManager : Singleton<GameManager> {
 
 		foreach (TileScript tile in tiles) 
 		{
-			tile.GetComponent<SpriteRenderer> ().color = Color.grey;
+			tile.GetComponent<SpriteRenderer> ().color = new Color32(255,0,0,100);
 		}
 			
 		foreach (Tower tower in towers) 
 		{
 			if (tower.transform.parent.tag != "Wall") 
 			{
-				tower.transform.parent.GetComponent<SpriteRenderer> ().color = Color.grey;
+				tower.transform.parent.GetComponent<SpriteRenderer> ().color = new Color32(255,0,0,100);
 			}
 		}
 	}
@@ -392,7 +409,9 @@ public class GameManager : Singleton<GameManager> {
 
 		foreach (TileScript tile in tiles) 
 		{
-			tile.GetComponent<SpriteRenderer> ().color = Color.white;
+			if (tile.Discovered) {
+				tile.GetComponent<SpriteRenderer> ().color = Color.white;
+			}
 		}
 
 		foreach (Tower tower in towers) 

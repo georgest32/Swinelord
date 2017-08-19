@@ -65,6 +65,6 @@ public abstract class SavableObject : MonoBehaviour {
 
 	public void DestroySavable()
 	{
-
+		SaveGameManager.Instance.SavableObjects.Remove (this);
 	}
 }
