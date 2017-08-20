@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour {
 
@@ -20,7 +21,7 @@ public class Portal : MonoBehaviour {
 	void Start () {
 		myAnimator = GetComponent<Animator> ();
 
-		if (!discovered) 
+		if (!discovered && SceneManager.GetActiveScene().name != "Home") 
 		{
 			GetComponent<SpriteRenderer> ().enabled = false;
 		} 
@@ -40,7 +41,7 @@ public class Portal : MonoBehaviour {
 
 	private void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.tag == "Monster" && !discovered) 
+		if (other.tag == "DiscoverTrigger") 
 		{
 			GetComponent<SpriteRenderer> ().enabled = true;
 			discovered = true;
