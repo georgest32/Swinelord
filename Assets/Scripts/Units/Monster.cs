@@ -199,7 +199,7 @@ public abstract class Monster : MonoBehaviour
 
 		if (Attacker && atTarget || Attacker && towers.Count > 0) 
 		{
-			Debug.Log ("Target: " + target);
+//			Debug.Log ("Target: " + target);
 			Attack ();
 		}
 
@@ -242,7 +242,6 @@ public abstract class Monster : MonoBehaviour
 			Stack<Node> newPath = LevelManager.Instance.GeneratePathToTarget (this, GameManager.Instance.WallToLeap);
 			SetPath (newPath);
 		}
-		Debug.Log (LevelManager.Instance.Path);
 
 		SetPath (LevelManager.Instance.Path);
 	}
@@ -345,8 +344,6 @@ public abstract class Monster : MonoBehaviour
 
 	private void Attack()
 	{
-		Debug.Log (towers.Count);
-
 		if (!canAttack) 
 		{
 			attackTimer += Time.deltaTime;
@@ -416,7 +413,6 @@ public abstract class Monster : MonoBehaviour
 
 		else if (other.tag == "UnitStopper" && Attacker && target != null) 
 		{
-			Debug.Log ("Stopping");
 			speed = 0;
 			atTarget = true;
 		}
@@ -510,12 +506,6 @@ public abstract class Monster : MonoBehaviour
 		{
 			debuff.Update ();
 		}
-	}
-
-	public void RemoveDebuff(Debuff debuff)
-	{
-		DebuffsToRemove.Add (debuff);
-		debuffs.Remove (debuff);
 	}
 
 	public abstract UnitDebuff GetUnitDebuff ();

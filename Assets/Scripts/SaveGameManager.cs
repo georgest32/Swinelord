@@ -112,6 +112,24 @@ public class SaveGameManager : MonoBehaviour {
 			case "SWINETOWER":
 				tmp = Instantiate(Resources.Load("Prefabs/Towers/SwineTower") as GameObject);
 				break;
+			case "SPITTERTOWER":
+				tmp = Instantiate(Resources.Load("Prefabs/Towers/SpitterTower") as GameObject);
+				break;
+			case "TRANSFATTYTOWER":
+				tmp = Instantiate(Resources.Load("Prefabs/Towers/TransfattyAcidTower") as GameObject);
+				break;
+			case "FLATULATIONTOWER":
+				tmp = Instantiate(Resources.Load("Prefabs/Towers/FlatulationTower") as GameObject);
+				break;
+			case "PORKUPINETOWER":
+				tmp = Instantiate(Resources.Load("Prefabs/Towers/PorkupineTower") as GameObject);
+				break;
+			case "THROWBEHINDTOWER":
+				tmp = Instantiate(Resources.Load("Prefabs/Towers/ThrowBehindTower") as GameObject);
+				break;
+			case "SWINELORDTOWER":
+				tmp = Instantiate(Resources.Load("Prefabs/Towers/SwinelordTower") as GameObject);
+				break;
 			}
 
 			if (tmp != null) 

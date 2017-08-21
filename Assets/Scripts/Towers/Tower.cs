@@ -200,6 +200,12 @@ public abstract class Tower : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+//		Debug.Log (monsters.Count);
+		Debug.Log ("target: " + target);
+		if (target != null) {
+			Debug.Log ("target.IsActive: " + target.IsActive);
+			Debug.Log ("target.IsAlive: " + target.IsAlive);
+		}
 		Attack ();
 		HandleDebuffs ();
 
@@ -212,10 +218,10 @@ public abstract class Tower : MonoBehaviour {
 			transform.GetChild (0).gameObject.SetActive (true);
 		}
 
-		if (transform.parent.parent != null && !transform.parent.parent.GetComponent<TileScript> ().Discovered) 
-		{
-			this.transform.parent.GetComponent<SpriteRenderer> ().sortingOrder = -9;
-		}
+//		if (transform.parent.parent != null && !transform.parent.parent.GetComponent<TileScript> ().Discovered) 
+//		{
+//			this.transform.parent.GetComponent<SpriteRenderer> ().sortingOrder = -9;
+//		}
 	}
 
 	public void Select()
@@ -239,19 +245,22 @@ public abstract class Tower : MonoBehaviour {
 				}
 			}
 
-			if (target == null && monsters.Count > 0) 
-			{
-				target = monsters.Dequeue ();
-			}
-
 			if (target != null && target.IsActive) 
 			{
 				if (canAttack) {
+					
 					Shoot ();
+
 					myAnimator.SetTrigger ("Attack");
+
 					canAttack = false;
 				}
 			} 
+
+			else if (target == null && monsters.Count > 0) 
+			{
+				target = monsters.Dequeue ();
+			}
 
 			if (target != null && !target.IsAlive || target != null && !target.IsActive) 
 			{

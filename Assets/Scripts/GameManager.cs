@@ -272,11 +272,12 @@ public class GameManager : Singleton<GameManager> {
 
 			selectedTower.GetComponentInParent<TileScript> ().IsEmpty = true;
 
+			selectedTower.transform.parent.GetComponent<SpecificObject>().DestroySavable ();
+
 			Destroy (selectedTower.transform.parent.gameObject);
 
 			DeselectTower ();
 
-			selectedTower.transform.parent.GetComponent<SpecificObject>().DestroySavable ();
 		}
 	}
 
